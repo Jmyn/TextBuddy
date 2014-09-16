@@ -84,6 +84,12 @@ public class TextBuddy {
 			case ADD : 
 				m_addWords.add(userWords);
 				return doAdd();
+			case SORT : 
+				return doSort();
+			case SEARCH : 
+				ArrayList<String> searchedWords = doSearch(userWords);
+				printSearch(searchedWords);
+				break;
 			case DISPLAY : 
 				doDisplay();
 				break;
@@ -107,6 +113,55 @@ public class TextBuddy {
 		}
 		return "";	
 	}
+	
+	public String doSort() throws IOException {
+		Collections.sort(m_addWords);
+		doAdd();
+		return SORT_MESSAGE;
+	}
+
+	
+	public void printSearch(ArrayList<String> searchedWords) {
+		if(searchedWords.isEmpty()) {
+			show(MESSAGE_NO_RESULTS_FOUND);
+		} else {
+			for (int i = 0; i < searchedWords.size(); i++) {
+				show(i + 1 + ". " + searchedWords.get(i));
+			}
+		}
+	}
+	
+	public ArrayList<String> doSearch(String userWords) {
+		boolean found = false;
+		ArrayList<String> searchedWords = new ArrayList<String>();
+		String[] params = userWords.split(" ");
+		
+		for(int i = 0; i < m_addWords.size(); i++) {
+			String[] words = m_addWords.get(i).split(" ");
+			for(int j = 0; j < params.length; j++) {
+				
+				for(int k = 0; k < words.length; k++) {
+					if(words[k].equalsIgnoreCase(params[j])) {
+						found = true;
+						break;
+					} else {
+						found = false;
+					}
+				}
+				if(!found) {
+					break;
+				}
+			}
+			if(found) {
+				searchedWords.add(m_addWords.get(i));
+			} 
+			found = false;
+		}
+		
+		return searchedWords;
+	}
+
+
 
 	
 	//Main method for writing into file. Everytime doAdd is called, Everything in the 
