@@ -82,8 +82,6 @@ public class TextBuddyTest{
 		for(int i = 0; i < testarray.size(); i++) {
 			tb.executeCommand("add " + testarray.get(i));
 		}
-		
-		Collections.sort(testarray);
 		assertEquals(SORT_MESSAGE, tb.executeCommand("sort"));
 		
 		BufferedReader br = new BufferedReader(new FileReader("TEST.txt"));
@@ -91,15 +89,19 @@ public class TextBuddyTest{
 			actualarray.add(br.readLine());
 		}
 		br.close();
-		
-		for(int i = 0; i < testarray.size(); i++) {
-			if(!testarray.get(i).equals(actualarray.get(i))) {
-				assertEquals(testarray.get(i),actualarray.get(i));
-			}
-		}
+		assertEquals(8, actualarray.size());
+		assertTrue(isSorted(actualarray));
 
 	}
 	
+	public boolean isSorted(ArrayList<String> array) {
+		for(int i = 1; i < array.size(); i++) {
+			if(array.get(i-1).compareTo(array.get(i)) > 0) {
+				return false;
+			}
+		}
+		return true;
+	}
 
 	@Test
 	public void testSearch1() throws Exception {

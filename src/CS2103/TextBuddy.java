@@ -134,13 +134,11 @@ public class TextBuddy {
 	public ArrayList<String> doSearch(String userWords) {
 		boolean found = false;
 		ArrayList<String> searchedWords = new ArrayList<String>();
-		String[] params = userWords.replaceAll("[\\W]", "").split(" ");
+		String[] params = userWords.replaceAll("[\\W]", " ").split(" ");
 		
 		for(int i = 0; i < m_addWords.size(); i++) {
-			String[] words = m_addWords.get(i).replaceAll("[\\W]", "").split(" ");
-			
+			String[] words = m_addWords.get(i).replaceAll("[\\W]", " ").split(" ");
 			for(int j = 0; j < params.length; j++) {
-				
 				for(int k = 0; k < words.length; k++) {
 					if(words[k].equalsIgnoreCase(params[j])) {
 						found = true;
