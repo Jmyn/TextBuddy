@@ -32,6 +32,7 @@ public class TextBuddy {
 	private static final String DELETE_MESSAGE = "deleted from %s: \"%s\"";
 	private static final String CLEAR_MESSAGE = "all content deleted from %s";
 	private static final String WELCOME_MESSAGE = "Welcome to TextBuddy. %s is ready for use";
+	private static final String SEARCH_MESSAGE = "%s result(s) found.";
 	
 	private ArrayList<String> m_addWords = new ArrayList<String>();
 	private static Scanner sc = new Scanner(System.in);
@@ -88,8 +89,7 @@ public class TextBuddy {
 				return doSort();
 			case SEARCH : 
 				ArrayList<String> searchedWords = doSearch(userWords);
-				printSearch(searchedWords);
-				break;
+				return printSearch(searchedWords);
 			case DISPLAY : 
 				doDisplay();
 				break;
@@ -121,13 +121,14 @@ public class TextBuddy {
 	}
 	
 	
-	public void printSearch(ArrayList<String> searchedWords) {
+	public String printSearch(ArrayList<String> searchedWords) {
 		if(searchedWords.isEmpty()) {
-			show(MESSAGE_NO_RESULTS_FOUND);
+			return MESSAGE_NO_RESULTS_FOUND;
 		} else {
 			for (int i = 0; i < searchedWords.size(); i++) {
 				show(i + 1 + ". " + searchedWords.get(i));
 			}
+			return String.format(SEARCH_MESSAGE, searchedWords.size());
 		}
 	}
 	
